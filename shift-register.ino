@@ -87,5 +87,7 @@ void loop(){
       curPattern = &reverse;
       curPattern->resetIndex();
    }
-  } 
+  }
+  
+  curPattern->update(); 
 }
