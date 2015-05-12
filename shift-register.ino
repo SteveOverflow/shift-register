@@ -7,7 +7,7 @@ int allArray[2] = {255, 0};
 int sweepArray[14] = {128, 64, 32, 16, 8, 4, 2, 1, 2, 4, 8, 16, 32, 64};
 int reverseSweep[14] = {127, 191, 223, 239,247,251,253, 254, 253, 251, 247, 239, 223, 191};
 
-int curPattern;
+//int curPattern;
 
 class LightPattern{
   int curIndex = 0;
@@ -51,6 +51,8 @@ LightPattern all(allArray, 2, 1000);
 LightPattern sweep(sweepArray, 14, 125);
 LightPattern reverse(reverseSweep, 14, 125);
 
+LightPattern* curPattern;
+
 void setup (){
   Serial.begin(9600);
   
@@ -60,8 +62,9 @@ void setup (){
   pinMode(dataPin,OUTPUT);
   
   //Set intial pattern
-  curPattern = 1;
-  all.resetIndex();
+  //curPattern = 1;
+  curPattern = &all;
+  curPattern->resetIndex();
 }
 
 void loop(){
@@ -69,36 +72,20 @@ void loop(){
     char input = Serial.read();
    
    if(input == 'a'){
-     curPattern = 1;
-     all.resetIndex();
+     curPattern = &all;
+     curPattern->resetIndex();
    }
    if(input == 'b'){
-      curPattern = 2;
-      spread.resetIndex();
+      curPattern = &spread;
+      curPattern->resetIndex();
    }
    if(input == 'c'){
-      curPattern = 3;
-      sweep.resetIndex();
+      curPattern = &sweep;
+      curPattern->resetIndex();
    }
    if(input == 'd'){
-      curPattern = 4;
-      reverse.resetIndex();
+      curPattern = &reverse;
+      curPattern->resetIndex();
    }
-  }
-  
-  switch(curPattern){
-     case 1:
-       all.update();
-       break;
-     case 2:
-       spread.update();
-       break;
-     case 3:
-       sweep.update();
-       break;
-     case 4:
-       reverse.update();
-       break;
-  }
-  
+  } 
 }
