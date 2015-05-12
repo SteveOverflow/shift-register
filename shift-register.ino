@@ -1,3 +1,5 @@
+#include <SoftwareSerial.h>
+
 const int clockPin = 8;//SH_CP
 const int dataPin = 11; //DS
 const int latchPin = 12;//ST_CP
@@ -6,6 +8,8 @@ int spreadArray[6] = {24, 36, 66, 129, 66, 36};
 int allArray[2] = {255, 0};
 int sweepArray[14] = {128, 64, 32, 16, 8, 4, 2, 1, 2, 4, 8, 16, 32, 64};
 int reverseSweep[14] = {127, 191, 223, 239,247,251,253, 254, 253, 251, 247, 239, 223, 191};
+
+SoftwareSerial bluetooth(2,3);
 
 //int curPattern;
 
@@ -55,7 +59,7 @@ LightPattern* curPattern;
 
 void setup (){
   Serial.begin(9600);
-  
+  bluetooth.begin(9600);
   //set pins to output
   pinMode(latchPin,OUTPUT);
   pinMode(clockPin,OUTPUT);
@@ -68,8 +72,9 @@ void setup (){
 }
 
 void loop(){
-  if(Serial.available()){
-    char input = Serial.read();
+  if(bluetooth.available()){
+    char input = bluetooth.read();
+    Serial.println(input);
    
    if(input == 'a'){
      curPattern = &all;
